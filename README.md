@@ -4,7 +4,19 @@
 
 Flutter plugin for generating PDF files from HTML
 
+### Import
+
+``` yaml
+
+flutter_html_to_pdf:
+  git:
+    url: https://github.com/Mamena2020/flutter_html_to_pdf2
+
+```
 ### Usage
+
+
+
 
 ```dart
 var htmlContent =
