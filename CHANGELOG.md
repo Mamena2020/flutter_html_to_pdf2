@@ -1,3 +1,6 @@
+## 0.9.0
+* Custom paper size - Android Only
+
 ## 0.8.2
 
 * update to flutter 3.10

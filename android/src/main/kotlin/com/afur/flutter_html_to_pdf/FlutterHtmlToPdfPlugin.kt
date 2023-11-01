@@ -35,8 +35,9 @@ class FlutterHtmlToPdfPlugin: FlutterPlugin, MethodCallHandler {
 
   private fun convertHtmlToPdf(call: MethodCall, result: Result) {
     val htmlFilePath = call.argument<String>("htmlFilePath")
+    val paperSize = call.argument<String>("paperSize")
 
-    HtmlToPdfConverter().convert(htmlFilePath!!, applicationContext, object : HtmlToPdfConverter.Callback {
+    HtmlToPdfConverter().convert(htmlFilePath!!, paperSize!!, applicationContext, object : HtmlToPdfConverter.Callback {
       override fun onSuccess(filePath: String) {
         result.success(filePath)
       }

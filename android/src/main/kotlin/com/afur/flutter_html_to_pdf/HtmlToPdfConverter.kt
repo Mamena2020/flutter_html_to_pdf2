@@ -19,7 +19,7 @@ class HtmlToPdfConverter {
     }
 
     @SuppressLint("SetJavaScriptEnabled")
-    fun convert(filePath: String, applicationContext: Context, callback: Callback) {
+    fun convert(filePath: String, paperSize: String,  applicationContext: Context, callback: Callback) {
         val webView = WebView(applicationContext)
         val htmlContent = File(filePath).readText(Charsets.UTF_8)
         webView.settings.javaScriptEnabled = true
@@ -29,19 +29,36 @@ class HtmlToPdfConverter {
         webView.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView, url: String) {
                 super.onPageFinished(view, url)
-                createPdfFromWebView(webView, applicationContext, callback)
+                createPdfFromWebView(webView, paperSize, applicationContext, callback)
             }
         }
     }
 
-    fun createPdfFromWebView(webView: WebView, applicationContext: Context, callback: Callback) {
+    fun createPdfFromWebView(webView: WebView, paperSize: String, applicationContext: Context, callback: Callback) {
         val path = applicationContext.filesDir
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 
+            var mediaSize = PrintAttributes.MediaSize.ISO_A4;
+            if(paperSize == "letter" || paperSize == "Letter"){
+                mediaSize = PrintAttributes.MediaSize.NA_LETTER;
+            }
+            if(paperSize == "legal" || paperSize == "Legal"){
+                mediaSize = PrintAttributes.MediaSize.NA_LEGAL;
+            }
+            if(paperSize == "A3" || paperSize == "a3"){
+                mediaSize = PrintAttributes.MediaSize.ISO_A3;
+            }
+            if(paperSize == "A4" || paperSize == "a4"){
+                mediaSize = PrintAttributes.MediaSize.ISO_A4;
+            }
+            if(paperSize == "A5" || paperSize == "a5"){
+                mediaSize = PrintAttributes.MediaSize.ISO_A5;
+            }
+
             val attributes = PrintAttributes.Builder()
-                .setMediaSize(PrintAttributes.MediaSize.ISO_A4)
+                .setMediaSize(mediaSize)
                 .setResolution(PrintAttributes.Resolution("pdf", "pdf", 600, 600))
-                .setMinMargins(PrintAttributes.Margins.NO_MARGINS).build()
+                .setMinMargins(PrintAttributes.Margins(50, 50, 50, 50)).build()
 
             val printer = PdfPrinter(attributes)
 
